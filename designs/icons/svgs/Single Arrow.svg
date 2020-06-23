@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="500" viewBox="0 0 500 500">
+  <defs>
+    <clipPath id="clip-Single_Arrow">
+      <rect width="500" height="500"/>
+    </clipPath>
+  </defs>
+  <g id="Single_Arrow" data-name="Single Arrow" clip-path="url(#clip-Single_Arrow)">
+    <rect width="500" height="500" fill="#fff"/>
+    <line id="Line_1" data-name="Line 1" y1="375" transform="translate(250.5 75.5)" fill="none" stroke="#707070" stroke-width="50"/>
+    <line id="Line_2" data-name="Line 2" x1="75" y2="75" transform="translate(250 151) rotate(-90)" fill="none" stroke="#707070" stroke-linecap="square" stroke-width="50"/>
+    <line id="Line_3" data-name="Line 3" x1="75" y1="75" transform="translate(175 151) rotate(-90)" fill="none" stroke="#707070" stroke-linecap="square" stroke-width="50"/>
+  </g>
+</svg>

@@ -1,0 +1,64 @@
+$yellow: #E6CA30;
+$blue: #4292ED;
+$pink: #ED4292;
+$green: #00b53c;
+$black: #333;
+$white: #FFF;
+
+$viewport-xs-max: 320px;
+$viewport-sm-min: 321px;
+$viewport-sm-max: 568px;
+$viewport-md-min: 569px;
+$viewport-mx-max: 768px;
+$viewport-lg-min: 769px;
+$viewport-lg-max: 1024px;
+$viewport-xl-min: 1025px;
+
+:root {
+  --background-color: #{$black};
+  --text-color: #{$white};
+  --border-color: #{$white};
+
+  --success: #{$green};
+  --success-inverted-fg: #{$white};
+  --success-inverted-bg: #{$green};
+
+  --universal-padding: 5vmin;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
+  min-width: $viewport-xs-max;
+
+  #app {
+    height: 100%;
+  }
+
+  font-size: 4vmin;
+  @media (min-width: $viewport-md-min) {
+    font-size: 3vmin;
+  }
+  @media (min-width: $viewport-lg-min) {
+    font-size: 2.5vmin;
+  }
+  @media (min-width: $viewport-xl-min) {
+    font-size: 14px;
+  }
+}
+
+.success {
+  background-color: var(--background-color);
+  color: var(--success);
+
+  &.inverted {
+    background-color: var(--success-inverted-bg);
+    color: var(--success-inverted-fg);
+  }
+}

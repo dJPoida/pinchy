@@ -97,6 +97,7 @@ module.exports = merge.smart(baseConfig, {
       chunks: [entryPoint.name],
       hash: true,
       templateParameters: {
+        appTitle: 'Pinchy (Dev)',
         appVersionSuffix,
         jsSuffix: 'development'
       },

@@ -1,3 +1,12 @@
+@import 'theme';
+
+// When the device is in Access Point mode, the client connects to the device and
+// typically won't have access to the internet at this point.
+// Therefore it's really important we keep the styles basic using only system
+// fonts and no complex component sets that require CDNs so that the AP mode
+// forms work correctly.
 body {
-  background-color: blue;
+  font-family: monospace;
 }
+
+@import './components/pages/ap-mode.page';

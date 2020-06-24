@@ -1,0 +1,79 @@
+.page.ap-mode {
+  width: 100%;
+  min-height: 100%;
+  
+  display: flex;
+  justify-content: center;
+
+  .container {
+    padding: 0 var(--universal-padding);
+    width: 100vmin;
+
+    text-align: center;
+
+    .row {
+      margin-top: var(--universal-padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &:last-of-type {
+        margin-bottom: var(--universal-padding);
+      }
+    }
+
+    .title {
+      margin-bottom: 0;
+    }
+
+    .logo {
+      width: 25vmin;
+    }
+  }
+
+  form.wifi-config {
+    padding: var(--universal-padding);
+    border: 1px solid var(--border-color);
+
+    .field-group {
+      display: grid;
+      grid-template-columns: auto auto 2em;
+      align-items: center;
+      column-gap: 1vmin;
+      row-gap: 1vmin;
+
+      label {
+        text-align: right;
+        font-size: 1rem;
+      }
+
+      input {
+        font-size: 1rem;
+
+        &.wifi-ssid {
+          grid-column: 2 / span 3;
+        }
+      }      
+
+
+      button.show-password {
+        margin: 0;
+        padding: 0;
+        height: 2em;
+        width: 2.5em;
+      }
+    }
+
+    .button-next {
+      margin-top: var(--universal-padding);
+
+      button {
+        margin: 0;
+        width: 100%;
+        border: none;
+        line-height: 2em;
+      }
+    }
+  }
+}

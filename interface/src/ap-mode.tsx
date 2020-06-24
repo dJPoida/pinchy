@@ -3,9 +3,6 @@ import * as ReactDOM from 'react-dom';
 
 import './scss/ap-mode.scss';
 
-import { HelloWorld } from './components/HelloWorld';
+import { APModePage } from './components/pages/ap-mode.page';
 
-ReactDOM.render(
-  <HelloWorld compiler="TypeScript" framework="React" />,
-  document.getElementById("example")
-);
+ReactDOM.render(<APModePage />, document.getElementById("app"));

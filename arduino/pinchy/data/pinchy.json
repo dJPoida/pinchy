@@ -1,8 +1,5 @@
 {
-  "wifi": {
-    "ssid": "ELDROIDZ",
-    "pw": "pkmej4eva",
-    "ipAddress": "192.168.0.169",
-    "port": 80
-  }
+  "wifi_ssid": "ELDROIDZ",
+  "wifi_pw": "bewbs",
+  "ip_address": "192.168.0.169"
 }

@@ -1,3 +1,4 @@
+
 /*============================================================================*\
  * Pinchy
  * Author: Peter Eldred
@@ -17,15 +18,23 @@
 
 
 /**
+ * Protection - Prevent this code from running on anything other than an ESP32
+ */
+#ifndef ESP32
+#error This code is designed to run on ESP32 platform, not Arduino nor ESP8266! Please check your Tools->Board setting.
+#endif
+
+
+/**
  * Includes
  */
+#include <DNSServer.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 #include "SPIFFS.h"
 #include "config.h"
 #include "pinchyFS.h"
-#include "wifiClient.h"
-#include "wifiAPServer.h"
+#include "wifiEngine.h"
 #include "brain.h"
 
 
@@ -33,18 +42,12 @@
  * Global Varibles
  */
 const char* firmwareVersion = "0.0.1";      // Firmware Version
-AsyncWebServer webServer(WEB_SERVER_PORT);     // Pinchy's Web Server for serving the control code
+AsyncWebServer webServer(WEB_SERVER_PORT);  // Pinchy's Web Server for serving the control code
+DNSServer dnsServer;                        // A DNS Server for use when in Access Point mode
+Config config;                              // Pinchy's configuration
 PinchyFS pinchyFS = PinchyFS();             // Pinchy's File System
 Brain brain = Brain();                      // Pinchy's Brain
-WifiClient wifiClient = WifiClient();       // Pinchy's WiFi client
-WifiAPServer wifiAPServer = WifiAPServer(); // Pinchy's WiFi Access Point server (for when the WiFi client fails)
-
-
-
-// Prevent this code from running on anything other than an ESP32
-#ifndef ESP32
-#error This code is designed to run on ESP32 platform, not Arduino nor ESP8266! Please check your Tools->Board setting.
-#endif
+WiFiEngine wifiEngine = WiFiEngine();       // Pinchy's WiFi engine
 
 
 /**
@@ -62,24 +65,21 @@ void setup() {
   // Initialise the PinchyFS
   if (!pinchyFS.init()) {
     // Failed to initialise the File System. Oh well. Bail.
+    // TODO: at some point perform a "HALT" with a red-flashing light
     return;
   }
 
-  // Initialise the WiFi
-  if (!wifiClient.init(&webServer)) {
-    
-    // Failed to initialise the WiFi - Begin broadcasting a hotspot
-    if (!wifiAPServer.init(&webServer)) {
-      // Failed to initialise the WiFi hotspot. Oh well. Bail.
-      return;
-    }
-  } 
-
-  // Only initialise the remainder of the robot when the WiFi is running in client mode
-  else {
-    // Initialise the Brain
-    brain.init();  
+  // Initialise the WiFi Engine
+  // This will automatically attempt to connect to a pre-configured
+  // WiFi hotspot and if unable to do so will broadcast Pinchy's Access Point
+  if (!wifiEngine.init(&webServer, &dnsServer)) {
+    // Failed to initialise the WiFi hotspot. Oh well. Bail.
+    // TODO: at some point perform a "HALT" with a red-flashing light
+    return;
   }
+
+  // Initialise the Brain
+  brain.init();
 }
 
 
@@ -87,4 +87,8 @@ void setup() {
  * Main Loop
  */
 void loop() {
+  // If the wifiEngine is in Access Point mode, process DNS requests.
+  if (wifiEngine.wifiEngineMode == WEM_AP) {
+    dnsServer.processNextRequest();
+  }
 }

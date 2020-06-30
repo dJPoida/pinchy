@@ -11,8 +11,12 @@ class PinchyFS {
   public:
     PinchyFS();
     bool init();
+    bool saveConfig();
 
   private:
+    bool loadConfig();
+
+    bool _writingConfig;
 };
 
 extern PinchyFS pinchyFS;

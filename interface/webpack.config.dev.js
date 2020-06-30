@@ -79,14 +79,15 @@ module.exports = merge.smart(baseConfig, {
       patterns: [
         {
           from: path.resolve(__dirname, 'node_modules/react/umd', 'react.development.js'),
-          to: 'lib',
+          to: 'js',
           toType: 'dir',
         },
         {
           from: path.resolve(__dirname, 'node_modules/react-dom/umd', 'react-dom.development.js'),
-          to: 'lib',
+          to: 'js',
           toType: 'dir',
-        }
+        },
+        path.resolve(__dirname, 'pinchy.json'),
       ],
     }),
 
@@ -116,6 +117,6 @@ module.exports = merge.smart(baseConfig, {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     writeToDisk: true,
-    port: pinchyJson.wifi.port
+    port: 80
   }
 });

@@ -4,6 +4,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const packageJson = require('./package.json');
 const baseConfig = require('./webpack.config.base');
@@ -20,6 +22,7 @@ module.exports = merge.smart(baseConfig, {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
         use: [
+          'babel-loader',
           {
             loader: 'ts-loader',
             options: {
@@ -41,15 +44,18 @@ module.exports = merge.smart(baseConfig, {
         test: /\.(scss|css)$/,
         use: [
           {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
+              sourceMap: false,
             },
           },
           {
             loader: 'sass-loader',
             options: {
-              sourceMap: true,
+              sourceMap: false,
             },
           },
         ],
@@ -74,14 +80,32 @@ module.exports = merge.smart(baseConfig, {
       },
     })),
 
+    // Extract the compiled CSS for each entry point into an external file
+    // This makes de-bugging and development easier
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),    
+
     // Copy the webpack source files to the dist directory
     new CopyWebpackPlugin({
       patterns: [
-        path.resolve(__dirname, 'node_modules/react/umd', 'react.production.min.js'),
-        path.resolve(__dirname, 'node_modules/react-dom/umd', 'react-dom.production.min.js'),
+        {
+          from: path.resolve(__dirname, 'node_modules/react/umd', 'react.production.min.js'),
+          to: 'js',
+          toType: 'dir',
+        },
+        {
+          from: path.resolve(__dirname, 'node_modules/react-dom/umd', 'react-dom.production.min.js'),
+          to: 'js',
+          toType: 'dir',
+        },
         path.resolve(__dirname, 'pinchy.json'),
       ],
     }),
+
+    // Because size is so important to the application we need to constantly check
+    // how phat the bundle is so we don't bloat the SPIFFS partition.
+    new BundleAnalyzerPlugin(),
 
     // When deploying a production build, the dist directory is copied into the Arduino source `/data` directory
     // This is in preparation for the `ESP32 Sketch Data Upload` utility which requires the contents of the
@@ -90,7 +114,7 @@ module.exports = merge.smart(baseConfig, {
     new WebpackShellPlugin({
       onBuildEnd:[
         // Remove the existing contents
-        `rm -rf ${path.resolve(__dirname, '../arduino/pinchy/data')}/*`,
+        `rm -rf ${path.resolve(__dirname, '../arduino/pinchy/data')}/*.*`,
         // Create the directory (if it does not yet already exist)
         `test -d ${path.resolve(__dirname, '../arduino/pinchy/data')} || mkdir ${path.resolve(__dirname, '../arduino/pinchy/data')}`,
         // Copy the dist output to the data directory

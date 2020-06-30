@@ -22,6 +22,19 @@
 /**
  * Web Server
  */
-#define WEB_SERVER_PORT 80    // The port that the web server is served on.
+#define WEB_SERVER_PORT 80          // The port that the web server is served on.
+
+/**
+ * Config struct for storing and loading data from the SPIFFS partition
+ */
+struct Config {
+  const char* apssid          = "pinchy"; // The SSID when the device is running in Access Point mode
+  const char* mdnsAddress     = "pinchy"; // The address that clients can use to connect to the device without the IP (i.e. http://pinchy.local)
+  String wifi_ssid            = "";       // The SSID of the wifi network that pinchy is configured to connect to
+  String wifi_password        = "";       // The Password of the wifi network that pinchy is configured to connect to
+  String ip_address           = "";       // The allocated IP address when connected to the WiFi
+};
+
+extern Config config;
 
 #endif

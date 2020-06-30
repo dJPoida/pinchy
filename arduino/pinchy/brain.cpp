@@ -21,12 +21,12 @@ Brain::Brain() {};
  */
 void Brain::init() {
   #ifdef SERIAL_DEBUG
-  Serial.println(" % Initialising brain...");
+  Serial.println("\nInitialising brain...\n");
   #endif
 
 
 
   #ifdef SERIAL_DEBUG
-  Serial.println(" % Brain initialised.");
+  Serial.println("\nBrain initialised.\n");
   #endif
 }

@@ -1,8 +1,5 @@
 {
-  "wifi": {
-    "ssid": null,
-    "pw": null,
-    "ipAddress": null,
-    "port": 80
-  }
+  "wifi_ssid": "",
+  "wifi_pw": "",
+  "ip_address": ""
 }
